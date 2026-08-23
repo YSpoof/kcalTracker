@@ -1,0 +1,11 @@
+.git
+.husky
+.vscode
+data
+node_modules
+.dockerignore
+.gitignore
+.oxfmtrc.json
+AGENTS.md
+drizzle.config.ts
+README.md

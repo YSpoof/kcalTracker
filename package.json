@@ -1,0 +1,44 @@
+{
+  "name": "kcalTracker",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#lib": "./src/lib/index.js",
+    "#lib/*": "./src/lib/*"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo '' && husky",
+    "precommit": "lint-staged",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --tsgo"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.2.3",
+    "@sveltejs/adapter-static": "next",
+    "@sveltejs/kit": "next",
+    "@sveltejs/vite-plugin-svelte": "^7.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.2.0",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "daisyui": "^5.7.20",
+    "dexie": "^4.4.5",
+    "drizzle-kit": "^0.31.10",
+    "echarts": "^6.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.3.0",
+    "oxfmt": "^0.64.0",
+    "svelte": "^5.56.10",
+    "svelte-check": "^4.7.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "unplugin-icons": "^23.0.1",
+    "vite": "^8.2.2"
+  },
+  "lint-staged": {
+    "*.{json,ts,js,svelte}": "oxfmt"
+  },
+  "packageManager": "pnpm@11.22.0"
+}

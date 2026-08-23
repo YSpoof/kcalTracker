@@ -1,0 +1,32 @@
+{
+  "name": "Kcal Tracker",
+  "short_name": "Kcal Tracker",
+  "description": "Um app simples e offline para acompanhamento diário de calorias e peso.",
+  "lang": "pt-BR",
+  "start_url": "/?utm_medium=PWA&utm_source=launcher",
+  "display": "standalone",
+  "background_color": "#FCFCF9",
+  "theme_color": "#3F9D37",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/pwa/vertical.webp",
+      "type": "image/webp",
+      "sizes": "660x1434",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/pwa/horizontal.webp",
+      "type": "image/webp",
+      "sizes": "1434x660",
+      "form_factor": "wide"
+    }
+  ]
+}

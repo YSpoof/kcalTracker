@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1" />
+    <meta
+      name="theme-color"
+      content="#3F9D37" />
+    <title>Kcal Tracker</title>
+    <meta
+      name="description"
+      content="Um app simples e offline para acompanhamento diário de calorias e peso." />
+    <meta
+      property="og:title"
+      content="Kcal Tracker" />
+    <meta
+      property="og:description"
+      content="Um app simples e offline para acompanhamento diário de calorias e peso." />
+    <meta
+      property="og:type"
+      content="website" />
+    <meta
+      property="og:url"
+      content="https://kcaltracker.lzart.com.br" />
+    <meta
+      name="twitter:title"
+      content="Kcal Tracker" />
+    <meta
+      name="twitter:description"
+      content="Um app simples e offline para acompanhamento diário de calorias e peso." />
+    <meta
+      property="twitter:url"
+      content="https://kcaltracker.lzart.com.br" />
+    <meta
+      property="og:image"
+      content="https://kcaltracker.lzart.com.br/images/og-image.webp" />
+    <meta
+      name="twitter:image"
+      content="https://kcaltracker.lzart.com.br/images/og-image.webp" />
+    <meta
+      name="twitter:card"
+      content="summary_large_image" />
+    <!-- <meta
+    name="google-site-verification"
+    content={googleVerification} /> -->
+    <link
+      rel="canonical"
+      href="https://kcaltracker.lzart.com.br" />
+    <link
+      rel="manifest"
+      href="/manifest.json" />
+    <link
+      rel="preload"
+      href="/open-sans.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous" />
+    <link
+      rel="preload"
+      href="/open-sans-italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous" />
+
+    <link
+      rel="icon"
+      href="/favicon.svg" />
+    <link href="/_app/immutable/entry/start.COsqvwT4.js" rel="modulepreload">
+		<link href="/_app/immutable/entry/payload.DSmR2FwN.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/HclGiUj8.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/RgB2qmm8.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/iiREnc3g.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/Op5phy_b.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/B133CZyy.js" rel="modulepreload">
+		<link href="/_app/immutable/entry/app.D00L3ZGL.js" rel="modulepreload">
+		<link href="/_app/immutable/nodes/0.BmrM1Gau.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/DPf8zsMh.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/DHPJV2DC.js" rel="modulepreload">
+		<link href="/_app/immutable/chunks/Da87X5Oj.js" rel="modulepreload">
+		
+		<link href="/_app/immutable/assets/0.DrsXFdCJ.css" rel="stylesheet">
+  </head>
+  <body data-sveltekit-preload-data="tap">
+    <div style="display: contents">
+			<script>
+				{
+					__sveltekit_nqmw7p = {
+						base: "",
+						version: "1787504607933"
+					};
+
+					const element = document.currentScript.parentElement;
+
+					import("/_app/immutable/entry/start.COsqvwT4.js").then(async (kit) => {
+						kit.init(__sveltekit_nqmw7p);
+						const app = await import("/_app/immutable/entry/app.D00L3ZGL.js");
+						kit.start(app, element);
+					});
+
+					if ('serviceWorker' in navigator) {
+						const script_url = '/service-worker.js';
+						const policy = globalThis?.window?.trustedTypes?.createPolicy(
+							'sveltekit-trusted-url',
+							{ createScriptURL(url) { return url; } }
+						);
+						const sanitised = policy?.createScriptURL(script_url) ?? script_url;
+						addEventListener('load', function () {
+							navigator.serviceWorker.register(sanitised, { type: 'module' });
+						});
+					}
+				}
+			</script>
+		</div>
+  </body>
+</html>

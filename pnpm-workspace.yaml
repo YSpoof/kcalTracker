@@ -1,0 +1,9 @@
+allowBuilds:
+  esbuild: false
+
+packageExtensions:
+  drizzle-kit:
+    dependencies:
+      drizzle-orm: "*"
+    peerDependencies:
+      "@libsql/client": "*"

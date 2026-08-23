@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@plugin "daisyui/index";
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+
+  --color-base-100: oklch(99% 0.003 100);
+  --color-base-200: oklch(97% 0.006 100);
+  --color-base-300: oklch(93% 0.01 100);
+  --color-base-content: oklch(24% 0.025 260);
+
+  --color-primary: oklch(62% 0.17 142);
+  --color-primary-content: oklch(98% 0.015 142);
+
+  --color-secondary: oklch(72% 0.12 220);
+  --color-secondary-content: oklch(25% 0.04 220);
+
+  --color-accent: oklch(78% 0.16 95);
+  --color-accent-content: oklch(25% 0.04 95);
+
+  --color-neutral: oklch(28% 0.03 260);
+  --color-neutral-content: oklch(98% 0.003 100);
+
+  --color-info: oklch(68% 0.14 225);
+  --color-info-content: oklch(97% 0.015 225);
+
+  --color-success: oklch(62% 0.17 142);
+  --color-success-content: oklch(98% 0.015 142);
+
+  --color-warning: oklch(78% 0.17 85);
+  --color-warning-content: oklch(28% 0.04 85);
+
+  --color-error: oklch(62% 0.2 25);
+  --color-error-content: oklch(97% 0.015 25);
+
+  --radius-selector: 0.75rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+
+  --color-base-100: oklch(19% 0.025 260);
+  --color-base-200: oklch(16% 0.025 260);
+  --color-base-300: oklch(24% 0.03 260);
+  --color-base-content: oklch(92% 0.015 100);
+
+  --color-primary: oklch(70% 0.17 142);
+  --color-primary-content: oklch(20% 0.04 142);
+
+  --color-secondary: oklch(72% 0.12 220);
+  --color-secondary-content: oklch(20% 0.04 220);
+
+  --color-accent: oklch(80% 0.16 95);
+  --color-accent-content: oklch(22% 0.04 95);
+
+  --color-neutral: oklch(88% 0.015 260);
+  --color-neutral-content: oklch(20% 0.025 260);
+
+  --color-info: oklch(70% 0.14 225);
+  --color-info-content: oklch(20% 0.04 225);
+
+  --color-success: oklch(68% 0.17 142);
+  --color-success-content: oklch(20% 0.04 142);
+
+  --color-warning: oklch(78% 0.17 85);
+  --color-warning-content: oklch(22% 0.04 85);
+
+  --color-error: oklch(66% 0.2 25);
+  --color-error-content: oklch(20% 0.04 25);
+
+  --radius-selector: 0.75rem;
+  --radius-field: 0.75rem;
+  --radius-box: 1rem;
+
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/open-sans-italic.woff2") format("woff2");
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url("/open-sans.woff2") format("woff2");
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+html {
+  @apply scrollbar-thumb-base-content scrollbar-track-base-100 dark:scrollbar-track-base-300 scrollbar-thin overflow-x-clip scroll-smooth;
+  font-family: "Open Sans", sans-serif;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+@layer utilities {
+  .rounded {
+    border-radius: var(--radius-box);
+  }
+}
