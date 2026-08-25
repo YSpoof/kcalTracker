@@ -25,7 +25,7 @@
     return {
       tooltip: {
         trigger: "axis",
-        valueFormatter: (value: unknown) => `${formatNumber(value as number, 1)} kg`,
+        valueFormatter: (value: unknown) => `${formatNumber(value as number, 2)} kg`,
       },
       grid: {
         left: 8,
@@ -73,8 +73,8 @@
             fontWeight: 600,
             formatter: (params: { value: unknown; dataIndex: number }) =>
               params.dataIndex === lastIndex
-                ? `{last|${formatNumber(params.value as number, 1)}}`
-                : formatNumber(params.value as number, 1),
+                ? `{last|${formatNumber(params.value as number, 2)}}`
+                : formatNumber(params.value as number, 2),
             rich: {
               last: {
                 backgroundColor: GREEN,
