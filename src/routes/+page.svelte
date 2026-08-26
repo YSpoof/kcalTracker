@@ -20,10 +20,15 @@
     getDayOfMonth,
     getLastNDates,
     getShortDayOfWeek,
+    getToday,
   } from "#lib/frontend/utils/date.js";
   import { formatNumber } from "#lib/frontend/utils/formatters.js";
 
+  const today = getToday();
+
   let target = $state(2000);
+  let selectedDate = $state(today);
+  let weekDates = $state<string[]>([]);
 
   let dailyMeals = $state<DailyMeal[]>([]);
   let availableMeals = $state<MealType[]>([]);
@@ -31,6 +36,9 @@
 
   let totalCalories = $derived(dailyMeals.reduce((acc, meal) => acc + meal.calories, 0));
   let remainingCalories = $derived(Math.max(0, target - totalCalories));
+  let isEditingOtherDay = $derived(selectedDate !== today);
+  let selectedIndex = $derived(weekDates.indexOf(selectedDate));
+  let dateLabel = $derived(isEditingOtherDay ? formatFullDate(selectedDate) : "hoje");
   let modalOpen = $state(false);
   let modalMode = $state<ModalMode>("create");
   let editingMeal = $state<DailyMeal | null>(null);
@@ -52,12 +60,12 @@
   };
 
   const reloadDailyMeals = async () => {
-    const dailyMealsResponse = await mealService.getDailyMeals();
-    dailyMeals = dailyMealsResponse;
+    dailyMeals = await mealService.getDailyMeals(selectedDate);
   };
 
   const loadWeeklyData = async () => {
     const dates = getLastNDates(7);
+    weekDates = dates;
     const meals = await mealService.getDailyMealsByDateRange(dates[0], dates[dates.length - 1]);
 
     const totalsByDate = new Map<string, number>();
@@ -71,9 +79,22 @@
     };
   };
 
+  const selectDay = (index: number) => {
+    const date = weekDates[index];
+    if (!date || date === selectedDate) return;
+    selectedDate = date;
+    void reloadDailyMeals();
+  };
+
+  const goToToday = () => {
+    if (selectedDate === today) return;
+    selectedDate = today;
+    void reloadDailyMeals();
+  };
+
   onMount(async () => {
     const [dailyMealsResponse, availableMealsResponse, targetResponse] = await Promise.all([
-      mealService.getDailyMeals(),
+      mealService.getDailyMeals(selectedDate),
       mealService.getMeals(),
       settingsService.getCalorieGoal(),
       loadWeeklyData(),
@@ -89,8 +110,16 @@
   <!-- Greeting Header -->
   <div class="mb-2">
     <h1 class="text-2xl font-bold">Kcal Tracker</h1>
-    <p class="text-base-content/60 text-sm">{formatFullDate()}</p>
+    <p class="text-base-content/60 text-sm">{formatFullDate(selectedDate)}</p>
   </div>
+
+  {#if isEditingOtherDay}
+    <button
+      class="btn btn-ghost bg-base-200 w-full rounded-xl"
+      onclick={goToToday}>
+      Voltar para hoje
+    </button>
+  {/if}
 
   <!-- Weekly Calories Chart -->
   <div class="card bg-base-100 dark:bg-base-300 shadow-sm">
@@ -99,7 +128,9 @@
       <BarChart
         labels={weeklyData.labels}
         values={weeklyData.values}
-        {target} />
+        {target}
+        {selectedIndex}
+        onSelect={selectDay} />
     </div>
   </div>
 
@@ -122,7 +153,7 @@
   <!-- Daily Summary Card -->
   <div class="card bg-base-100 dark:bg-base-300 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">Resumo de hoje</h2>
+      <h2 class="card-title text-base">Resumo de {dateLabel}</h2>
       <div class="mt-2 flex flex-row items-center justify-around">
         <StatCard
           Icon={FireIcon}
@@ -155,7 +186,7 @@
   <div class="card bg-base-100 dark:bg-base-300 w-full shadow-sm">
     <div class="card-body">
       <div class="flex items-center justify-between">
-        <h2 class="card-title text-base">Refeições de hoje</h2>
+        <h2 class="card-title text-base">Refeições de {dateLabel}</h2>
         <span class="badge badge-sm badge-ghost">{dailyMeals.length}</span>
       </div>
       <ul class="divide-base-content/10 mt-2 divide-y">
@@ -171,7 +202,7 @@
           </li>
         {:else}
           <div class="pt-2">
-            <EmptyState message="Nada ainda hoje">
+            <EmptyState message={isEditingOtherDay ? "Nada nesse dia" : "Nada ainda"}>
               <FoodSteakOffIcon class="size-6 opacity-40" />
             </EmptyState>
           </div>
@@ -186,5 +217,6 @@
   mode={modalMode}
   meal={editingMeal}
   {availableMeals}
+  date={selectedDate}
   onSubmit={handleModalSubmit}
   onClose={closeModal} />

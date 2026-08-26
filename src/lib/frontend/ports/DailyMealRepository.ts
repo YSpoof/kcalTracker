@@ -4,7 +4,7 @@ export interface DailyMealRepositoryPort {
   createDailyMeal(data: DailyMeal): Promise<void>;
   updateDailyMeal(data: DailyMeal): Promise<void>;
   getDailyMeal(id: string): Promise<DailyMeal | undefined>;
-  getDailyMeals(): Promise<DailyMeal[]>;
+  getDailyMeals(date: string): Promise<DailyMeal[]>;
   getDailyMealsByDateRange(startDate: string, endDate: string): Promise<DailyMeal[]>;
   deleteDailyMeal(id: string): Promise<void>;
 }

@@ -7,12 +7,14 @@ export const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString("pt-BR");
 };
 
-export const formatFullDate = (date: Date = new Date()) =>
-  date.toLocaleDateString("pt-BR", {
+export const formatFullDate = (date: Date | string = new Date()) => {
+  const resolved = typeof date === "string" ? new Date(`${date}T12:00`) : date;
+  return resolved.toLocaleDateString("pt-BR", {
     weekday: "long",
     day: "numeric",
     month: "long",
   });
+};
 
 export const getDayOfWeek = (dateStr: string) =>
   new Date(`${dateStr}T12:00`).toLocaleDateString("pt-BR", { weekday: "long" });

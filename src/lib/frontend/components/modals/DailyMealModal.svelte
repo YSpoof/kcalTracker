@@ -2,7 +2,6 @@
   import type { DailyMeal, MealType } from "#lib/frontend/services/db/schema/index.js";
   import { mealService } from "#lib/frontend/services/mealService.js";
   import type { ModalCallbacks, ModalMode } from "#lib/frontend/types.js";
-  import { getToday } from "#lib/frontend/utils/date.js";
 
   import GenericLoader from "../misc/GenericLoader.svelte";
   import GenericModal from "./GenericModal.svelte";
@@ -12,11 +11,12 @@
     mode: ModalMode;
     meal: DailyMeal | null;
     availableMeals: MealType[];
+    date: string;
   }
 
   type SelectedMeal = MealType | "manual";
 
-  const { open, mode, meal, availableMeals, onSubmit, onClose }: Props = $props();
+  const { open, mode, meal, availableMeals, date, onSubmit, onClose }: Props = $props();
 
   const title = $derived(mode === "create" ? "Registrar" : "Atualizar");
   const buttonTitle = $derived(mode === "create" ? "Registrar" : "Atualizar");
@@ -25,7 +25,7 @@
   let isSaving = $state(false);
   let formState = $state<DailyMeal>({
     id: crypto.randomUUID(),
-    date: getToday(),
+    date: "",
     name: "",
     calories: 0,
   });
@@ -41,7 +41,7 @@
     selectedMeal = "manual";
     formState = {
       id: crypto.randomUUID(),
-      date: getToday(),
+      date,
       name: "",
       calories: 0,
     };
@@ -52,7 +52,7 @@
 
     return {
       id: mode === "update" && meal ? meal.id : crypto.randomUUID(),
-      date: mode === "update" && meal ? meal.date : getToday(),
+      date: mode === "update" && meal ? meal.date : date,
       name: selectedMeal.name,
       calories: selectedMeal.calories,
     };

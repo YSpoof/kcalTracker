@@ -16,18 +16,22 @@
   const { open, mode, weight, onSubmit, onClose }: Props = $props();
 
   let weightValue = $state<number>(0);
+  let dateValue = $state(getToday());
+  let maxDate = $state(getToday());
   let isSaving = $state(false);
 
   const title = $derived(mode === "create" ? "Registrar peso" : "Atualizar peso");
   const buttonTitle = $derived(mode === "create" ? "Registrar" : "Atualizar");
+  const disableSave = $derived(!weightValue || isSaving || (mode === "create" && !dateValue));
 
   const handleSubmit = async () => {
-    if (isSaving || !weightValue) return;
+    if (disableSave) return;
+    if (mode === "create" && dateValue > maxDate) return;
     isSaving = true;
     try {
       const record: WeightRecord = {
         id: mode === "update" && weight ? weight.id : crypto.randomUUID(),
-        date: mode === "update" && weight ? weight.date : getToday(),
+        date: mode === "update" && weight ? weight.date : dateValue,
         weight: weightValue,
       };
       if (mode === "create") await weightService.createWeight(record);
@@ -52,9 +56,15 @@
   $effect(() => {
     if (!open) {
       weightValue = 0;
+      dateValue = getToday();
       return;
     }
-    if (mode === "update" && weight) weightValue = weight.weight;
+    maxDate = getToday();
+    if (mode === "update" && weight) {
+      weightValue = weight.weight;
+      return;
+    }
+    dateValue = getToday();
   });
 </script>
 
@@ -63,6 +73,17 @@
   {open}
   cantClose={isSaving}
   {onClose}>
+  {#if mode === "create"}
+    <label class="floating-label">
+      <span>Data</span>
+      <input
+        type="date"
+        class="input input-bordered w-full"
+        bind:value={dateValue}
+        max={maxDate}
+        disabled={isSaving} />
+    </label>
+  {/if}
   <label class="floating-label">
     <span>Peso (kg)</span>
     <input
@@ -92,7 +113,7 @@
       disabled={isSaving}>Cancelar</button>
     <button
       class="btn btn-primary"
-      disabled={!weightValue || isSaving}
+      disabled={disableSave}
       onclick={handleSubmit}>
       {#if isSaving}<GenericLoader class="size-4" /> Salvando...{:else}{buttonTitle}{/if}
     </button>

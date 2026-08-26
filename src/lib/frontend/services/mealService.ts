@@ -35,8 +35,8 @@ export class MealService {
   async getDailyMeal(id: string) {
     return this.dailyMealRepo.getDailyMeal(id);
   }
-  async getDailyMeals() {
-    return this.dailyMealRepo.getDailyMeals();
+  async getDailyMeals(date: string) {
+    return this.dailyMealRepo.getDailyMeals(date);
   }
   async getDailyMealsByDateRange(startDate: string, endDate: string) {
     return this.dailyMealRepo.getDailyMealsByDateRange(startDate, endDate);

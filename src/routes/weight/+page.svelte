@@ -27,12 +27,13 @@
     weightsByDateDesc.filter((w) => formatDate(w.date).includes(search) || w.date.includes(search)),
   );
 
+  let chartWeights = $derived(weightsByDateAsc.slice(-7));
   let weightChartLabels = $derived(
-    weightsByDateAsc.map((w) =>
+    chartWeights.map((w) =>
       new Date(`${w.date}T12:00`).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }),
     ),
   );
-  let weightChartValues = $derived(weightsByDateAsc.map((w) => w.weight));
+  let weightChartValues = $derived(chartWeights.map((w) => w.weight));
 
   let modalOpen = $state(false);
   let modalMode = $state<ModalMode>("create");
@@ -84,7 +85,7 @@
 
   <div class="card bg-base-100 dark:bg-base-300 shadow-sm">
     <div class="card-body">
-      <h2 class="card-title text-base">Histórico completo</h2>
+      <h2 class="card-title text-base">Últimos 7 registros</h2>
       {#if weights.length > 1}
         <LineChart
           labels={weightChartLabels}

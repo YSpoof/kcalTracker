@@ -1,7 +1,6 @@
 import type { DailyMealRepositoryPort } from "#lib/frontend/ports/DailyMealRepository.js";
 import { db } from "#lib/frontend/services/db/index.js";
 import type { DailyMeal } from "#lib/frontend/services/db/schema/index.js";
-import { getToday } from "#lib/frontend/utils/date.js";
 
 export class DexieDailyMealRepository implements DailyMealRepositoryPort {
   async createDailyMeal(data: DailyMeal): Promise<void> {
@@ -17,8 +16,8 @@ export class DexieDailyMealRepository implements DailyMealRepositoryPort {
   async getDailyMeal(id: string) {
     return db.dailyMeals.get(id);
   }
-  async getDailyMeals() {
-    return db.dailyMeals.where("date").equals(getToday()).toArray();
+  async getDailyMeals(date: string) {
+    return db.dailyMeals.where("date").equals(date).toArray();
   }
   async getDailyMealsByDateRange(startDate: string, endDate: string) {
     return db.dailyMeals.where("date").between(startDate, endDate, true, true).toArray();

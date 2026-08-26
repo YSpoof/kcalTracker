@@ -17,14 +17,17 @@
     labels: string[];
     values: number[];
     target?: number;
+    selectedIndex?: number;
+    onSelect?: (index: number) => void;
   }
 
-  let { labels = [], values = [], target }: Props = $props();
+  let { labels = [], values = [], target, selectedIndex, onSelect }: Props = $props();
+
+  const highlightIndex = $derived(
+    selectedIndex !== undefined && selectedIndex >= 0 ? selectedIndex : labels.length - 1,
+  );
 
   function buildOption(): echarts.EChartsCoreOption {
-    const maxValue = values.length > 0 ? Math.max(...values) : 0;
-    const exceeded = target !== undefined && maxValue > target;
-
     return {
       tooltip: {
         trigger: "axis",
@@ -49,7 +52,7 @@
           fontSize: 11,
           formatter: (label: string, index: number) => {
             const [weekday, day] = label.split("\n");
-            return index === labels.length - 1
+            return index === highlightIndex
               ? `{weekToday|${weekday}}\n{dayToday|${day}}`
               : `{week|${weekday}}\n{day|${day}}`;
           },
@@ -86,7 +89,7 @@
           itemStyle: {
             borderRadius: [8, 8, 0, 0],
             color: ({ value }: { value: unknown }) =>
-              exceeded && value === maxValue ? ORANGE : GREEN,
+              target !== undefined && (value as number) > target ? ORANGE : GREEN,
           },
           label: {
             show: true,
@@ -113,21 +116,35 @@
   }
 </script>
 
-<div
-  class="h-56 w-full"
-  {@attach (node) => {
-    const chart = echarts.init(node, undefined, { renderer: "svg" });
+<div class={["relative h-56 w-full", onSelect && "cursor-pointer"]}>
+  <div
+    class="h-full w-full"
+    {@attach (node) => {
+      const chart = echarts.init(node, undefined, { renderer: "svg" });
 
-    const observer = new ResizeObserver(() => chart.resize());
-    observer.observe(node);
+      const observer = new ResizeObserver(() => chart.resize());
+      observer.observe(node);
 
-    $effect(() => {
-      chart.setOption(buildOption(), true);
-    });
+      $effect(() => {
+        chart.setOption(buildOption(), true);
+      });
 
-    return () => {
-      observer.disconnect();
-      chart.dispose();
-    };
-  }}>
+      return () => {
+        observer.disconnect();
+        chart.dispose();
+      };
+    }}>
+  </div>
+  {#if onSelect}
+    <div class="absolute inset-0 z-10 flex">
+      {#each labels as label, index (label)}
+        <button
+          type="button"
+          class="h-full min-w-0 flex-1 cursor-pointer"
+          aria-label={label.replace("\n", " ")}
+          onclick={() => onSelect(index)}>
+        </button>
+      {/each}
+    </div>
+  {/if}
 </div>
