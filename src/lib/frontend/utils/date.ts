@@ -4,7 +4,7 @@ const toDateStr = (date: Date) =>
 export const getToday = () => toDateStr(new Date());
 
 export const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString("pt-BR");
+  return new Date(`${date}T12:00`).toLocaleDateString("pt-BR");
 };
 
 export const formatFullDate = (date: Date | string = new Date()) => {
